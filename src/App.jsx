@@ -251,6 +251,8 @@ const initialFormState = {
   message: '',
 }
 
+const WHATSAPP_NUMBER = '919313567098'
+
 function renderStars(rating) {
   const stars = []
   const fullStars = Math.floor(rating)
@@ -322,6 +324,21 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault()
+
+    const message = [
+      'New Enquiry from MD16 Website',
+      '',
+      `Name: ${formData.name}`,
+      `Email: ${formData.email}`,
+      `Phone: ${formData.phone}`,
+      `Course: ${formData.course || 'Not selected'}`,
+      `Message: ${formData.message || 'No message provided'}`,
+    ].join('\n')
+
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
+
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
+
     setSubmitted(true)
     setFormData(initialFormState)
   }
@@ -770,8 +787,7 @@ function App() {
                   <h3 className="mb-4">Send Us a Message</h3>
                   {submitted ? (
                     <Alert variant="success" className="mb-4">
-                      Your enquiry has been prepared on the frontend. Connect it to a
-                      backend or form service to store submissions.
+                      Your enquiry was prepared and opened in WhatsApp for sending.
                     </Alert>
                   ) : null}
                   <Form onSubmit={handleSubmit}>
